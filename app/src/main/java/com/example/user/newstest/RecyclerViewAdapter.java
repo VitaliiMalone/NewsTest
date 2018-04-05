@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -45,7 +48,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 customTabsIntent.launchUrl(context, Uri.parse(url));
             }
         });
-    }
+        String imageUrl = news.get(position).getImageUrl();
+        Glide.with(context)
+                .load(imageUrl)
+                .into(holder.image);
+}
 
     @Override
     public int getItemCount() {
@@ -57,6 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView sourceName;
         TextView title;
         TextView description;
+        ImageView image;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             sourceName = itemView.findViewById(R.id.news_source_name);
             title = itemView.findViewById(R.id.news_title);
             description = itemView.findViewById(R.id.news_description);
+            image = itemView.findViewById(R.id.news_image);
         }
     }
 

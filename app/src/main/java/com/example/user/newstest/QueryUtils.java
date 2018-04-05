@@ -1,5 +1,6 @@
 package com.example.user.newstest;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -25,8 +26,8 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    public static List<News> fetchNews(String requestUrl) {
-        URL url = createUrl(requestUrl);
+    public static List<News> fetchNews() {
+        URL url = createUrl();
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -37,10 +38,18 @@ public final class QueryUtils {
         return news;
     }
 
-    private static URL createUrl(String stringUrl) {
+    private static URL createUrl() {
+        final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
+        final String COUNTRY_PARAM = "country";
+        final String PARAM_API_KEY = "apiKey";
+
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter(COUNTRY_PARAM, "us")
+                .appendQueryParameter(PARAM_API_KEY, "636fabe95997449195a6e4d1c9b96b44")
+                .build();
         URL url = null;
         try {
-            url = new URL(stringUrl);
+            url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
@@ -113,8 +122,9 @@ public final class QueryUtils {
                 String description = currentNews.getString("description");
                 if (description.equals("null") || description.isEmpty()) description = "No description";
                 String url = currentNews.getString("url");
+                String imageUrl = currentNews.getString("urlToImage");
 
-                news.add(new News(sourceName, title, description, url));
+                news.add(new News(sourceName, title, description, url, imageUrl));
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing news JSON results", e);

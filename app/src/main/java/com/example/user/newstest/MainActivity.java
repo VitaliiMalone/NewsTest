@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,10 +24,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public static final int TOP_HEADLINES_LOADER_ID = 1;
 
-    public static final String URL_AUTHORITY = "https://newsapi.org";
-    public static final String URL_PATH = "/v2/top-headlines?";
-    public static final String URL_PARAM = "country=us&";
-    public static final String URL_API_KEY = "apiKey=636fabe95997449195a6e4d1c9b96b44";
+
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -64,12 +62,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @NonNull
     @Override
     public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
-        String url = URL_AUTHORITY + URL_PATH + URL_PARAM + URL_API_KEY;
-        return new NewsLoader(this, url);
+        Log.v(LOG_TAG, "OnCreateLoader");
+        return new NewsLoader(this);
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<News>> loader, List<News> data) {
+        Log.v(LOG_TAG, "onLoadFinished");
         loadingIndicator.setVisibility(View.GONE);
 
         adapter.clear();
@@ -84,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<News>> loader) {
+        Log.v(LOG_TAG, "onLoaderReset");
+
         adapter.clear();
     }
 }
