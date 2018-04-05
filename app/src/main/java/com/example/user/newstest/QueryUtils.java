@@ -111,6 +111,7 @@ public final class QueryUtils {
                 String sourceName = source.getString("name");
                 String title = currentNews.getString("title");
                 String description = currentNews.getString("description");
+                if (description.equals("null")) description = "No description";
                 String url = currentNews.getString("url");
 
                 news.add(new News(sourceName, title, description, url));
