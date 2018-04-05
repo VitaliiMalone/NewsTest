@@ -1,6 +1,9 @@
 package com.example.user.newstest;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +16,10 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.NewsViewHolder> {
 
     private List<News> news;
+    private Context context;
 
-    public RecyclerViewAdapter(List<News> news) {
+    public RecyclerViewAdapter(Context context, List<News> news) {
+        this.context = context;
         this.news = news;
     }
 
@@ -26,10 +31,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewAdapter.NewsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerViewAdapter.NewsViewHolder holder, final int position) {
         holder.sourceName.setText(news.get(position).getSourceName());
         holder.title.setText(news.get(position).getTitle());
         holder.description.setText(news.get(position).getDescription());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = news.get(position).getUrl();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(context.getResources().getColor(R.color.colorPrimary));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(context, Uri.parse(url));
+            }
+        });
     }
 
     @Override
