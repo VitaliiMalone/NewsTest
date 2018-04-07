@@ -2,4 +2,35 @@
     <string name="app_name">NewsTest</string>
     <string name="no_connection">No internet connection</string>
     <string name="no_news">No news found</string>
+    <string name="settings">Settings</string>
+    <string name="news_settings">News Settings</string>
+    <string name="country">Country and Language</string>
+
+    <!-- Strings for country Preference -->
+    <string name="settings_country_label">Country</string>
+    <string name="settings_country_key" translatable="false">country</string>
+    <string name="settings_country_default" translatable="false">@string/settings_country_us_value</string>
+
+    <!-- Label for country US option -->
+    <string name="settings_country_us_label">USA</string>
+    <string name="settings_country_us_value" translatable="false">us</string>
+
+    <!-- Label for country Ukraine option -->
+    <string name="settings_country_ua_label">Ukraine</string>
+    <string name="settings_country_ua_value" translatable="false">ua</string>
+
+    <!-- Label for country Russia option -->
+    <string name="settings_country_ru_label">Russia</string>
+    <string name="settings_country_ru_value" translatable="false">ru</string>
+
+    <!-- Label for country Russia option -->
+    <string name="settings_country_pl_label">Poland</string>
+    <string name="settings_country_pl_value" translatable="false">pl</string>
+
+    <!-- Label for country Russia option -->
+    <string name="settings_country_de_label">Germany</string>
+    <string name="settings_country_de_value" translatable="false">de</string>
+
+    <string name="attribution_link">Powered by News API</string>
+
 </resources>

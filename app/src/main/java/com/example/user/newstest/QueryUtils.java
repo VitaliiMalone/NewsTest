@@ -1,6 +1,5 @@
 package com.example.user.newstest;
 
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,8 +25,8 @@ public final class QueryUtils {
     private QueryUtils() {
     }
 
-    public static List<News> fetchNews() {
-        URL url = createUrl();
+    public static List<News> fetchNews(String uri) {
+        URL url = createUrl(uri);
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -38,18 +37,10 @@ public final class QueryUtils {
         return news;
     }
 
-    private static URL createUrl() {
-        final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
-        final String COUNTRY_PARAM = "country";
-        final String PARAM_API_KEY = "apiKey";
-
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(COUNTRY_PARAM, "us")
-                .appendQueryParameter(PARAM_API_KEY, "636fabe95997449195a6e4d1c9b96b44")
-                .build();
+    private static URL createUrl(String uri) {
         URL url = null;
         try {
-            url = new URL(builtUri.toString());
+            url = new URL(uri);
         } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }

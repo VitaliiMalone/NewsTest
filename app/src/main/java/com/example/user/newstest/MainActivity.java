@@ -1,8 +1,12 @@
 package com.example.user.newstest;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -12,6 +16,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -63,7 +69,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
         Log.v(LOG_TAG, "OnCreateLoader");
-        return new NewsLoader(this);
+
+        final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
+        final String CATEGORY_PARAM = "category";
+        final String COUNTRY_PARAM = "country";
+        final String API_KEY_PARAM = "apiKey";
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        String country = sharedPref.getString(
+                getString(R.string.settings_country_key),
+                getString(R.string.settings_country_default));
+
+        String builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter(COUNTRY_PARAM, country)
+                .appendQueryParameter(CATEGORY_PARAM, "general")
+                .appendQueryParameter(API_KEY_PARAM, "636fabe95997449195a6e4d1c9b96b44")
+                .build().toString();
+
+        return new NewsLoader(this, builtUri);
     }
 
     @Override
@@ -86,5 +109,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Log.v(LOG_TAG, "onLoaderReset");
 
         adapter.clear();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_setting:
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

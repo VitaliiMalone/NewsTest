@@ -12,9 +12,12 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     public static final String LOG_TAG = NewsLoader.class.getName();
 
-    public NewsLoader(@NonNull Context context) {
+    private String uri;
+
+    public NewsLoader(@NonNull Context context, String uri) {
         super(context);
         Log.v(LOG_TAG, "NewsLoader");
+        this.uri = uri;
 
     }
 
@@ -28,6 +31,6 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
     @Override
     public List<News> loadInBackground() {
         Log.v(LOG_TAG, "loadInBackground");
-        return QueryUtils.fetchNews();
+        return QueryUtils.fetchNews(uri);
     }
 }
