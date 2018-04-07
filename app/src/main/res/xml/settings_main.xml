@@ -11,5 +11,5 @@
 
     <Preference
         android:title="@string/attribution_link"
-        android:summary="newsapi.org"/>
+        android:summary="newsapi.org" />
 </PreferenceScreen>

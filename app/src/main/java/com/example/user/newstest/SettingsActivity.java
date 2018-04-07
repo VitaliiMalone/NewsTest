@@ -14,7 +14,11 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+
+        getFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, new NewsPreferenceFragment())
+                .commit();
     }
 
     public static class NewsPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
