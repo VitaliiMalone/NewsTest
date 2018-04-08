@@ -27,15 +27,31 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
     public static final String LOG_TAG = NewsFragment.class.getName();
 
-    public static final int TOP_HEADLINES_LOADER_ID = 1;
+    public static final String ARG_NEWS_CATEGORY = "news_category";
+    public static final String ARG_LOADER_ID = "loader_id";
 
+    private int loaderId;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private View loadingIndicator;
     private TextView emptyView;
+    private String category;
 
-    public NewsFragment() {
-        // Required empty public constructor
+    public static Fragment newInstance(String category, int loaderId) {
+        Bundle args = new Bundle();
+        args.putString(ARG_NEWS_CATEGORY, category);
+        args.putInt(ARG_LOADER_ID, loaderId);
+
+        NewsFragment fragment = new NewsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        category = getArguments().getString(ARG_NEWS_CATEGORY);
+        loaderId = getArguments().getInt(ARG_LOADER_ID);
     }
 
     @Override
@@ -55,7 +71,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            getActivity().getSupportLoaderManager().initLoader(TOP_HEADLINES_LOADER_ID, null, NewsFragment.this);
+            getActivity().getSupportLoaderManager().initLoader(loaderId, null, NewsFragment.this);
         } else {
             loadingIndicator.setVisibility(View.GONE);
 
@@ -69,8 +85,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     @NonNull
     @Override
     public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
-        Log.v(LOG_TAG, "OnCreateLoader");
-
         final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
         final String CATEGORY_PARAM = "category";
         final String COUNTRY_PARAM = "country";
@@ -83,10 +97,10 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
 
         String builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(COUNTRY_PARAM, country)
-                .appendQueryParameter(CATEGORY_PARAM, "general")
+                .appendQueryParameter(CATEGORY_PARAM, category)
                 .appendQueryParameter(API_KEY_PARAM, "636fabe95997449195a6e4d1c9b96b44")
                 .build().toString();
-
+        Log.v(LOG_TAG, "OnCreateLoader: builtUrl: " + builtUri);
         return new NewsLoader(getActivity(), builtUri);
     }
 

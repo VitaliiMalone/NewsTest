@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewsActivity">
+        <activity android:name=".NewsPagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
             android:label="@string/news_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewsActivity" />
+                android:value=".NewsPagerActivity" />
         </activity>
     </application>
 

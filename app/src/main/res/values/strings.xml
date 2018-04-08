@@ -5,6 +5,7 @@
     <string name="settings">Settings</string>
     <string name="news_settings">News Settings</string>
     <string name="country">Country and Language</string>
+    <string name="attribution_link">Powered by News API</string>
 
     <!-- Strings for country Preference -->
     <string name="settings_country_label">Country</string>
@@ -31,6 +32,13 @@
     <string name="settings_country_de_label">Germany</string>
     <string name="settings_country_de_value" translatable="false">de</string>
 
-    <string name="attribution_link">Powered by News API</string>
+    <!-- Categories values and titles -->
+    <string name="general_title">General</string>
+    <string name="business_title">Business</string>
+    <string name="entertainment_title">Entertainment</string>
+    <string name="sports_title">Sports</string>
+    <string name="technology_title">Technology</string>
+    <string name="science_title">Science</string>
+    <string name="health_title">Health</string>
 
 </resources>
