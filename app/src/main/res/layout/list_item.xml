@@ -49,11 +49,11 @@
                 android:id="@+id/news_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/avatars" />
+                android:layout_marginTop="8dp"
+                android:background="@color/light_grey"
+                android:scaleType="centerCrop" />
 
         </LinearLayout>
 

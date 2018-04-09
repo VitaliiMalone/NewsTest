@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,7 +24,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>>{
+public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>>,
+        SwipeRefreshLayout.OnRefreshListener{
 
     public static final String LOG_TAG = NewsFragment.class.getName();
 
@@ -33,6 +35,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     private int loaderId;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private View loadingIndicator;
     private TextView emptyView;
     private String category;
@@ -62,24 +65,35 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         emptyView = v.findViewById(R.id.empty_view);
         emptyView.setVisibility(View.GONE);
 
+        swipeRefreshLayout = v.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        updateUI();
+
+        return v;
+    }
+
+    private void updateUI() {
         adapter = new RecyclerViewAdapter(getActivity(), new ArrayList<News>());
         recyclerView.setAdapter(adapter);
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
             getActivity().getSupportLoaderManager().initLoader(loaderId, null, NewsFragment.this);
         } else {
+            recyclerView.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
             loadingIndicator.setVisibility(View.GONE);
 
             emptyView.setText(R.string.no_connection);
             emptyView.setVisibility(View.VISIBLE);
         }
-
-        return v;
     }
 
     @NonNull
@@ -109,6 +123,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         Log.v(LOG_TAG, "onLoadFinished");
         loadingIndicator.setVisibility(View.GONE);
 
+        swipeRefreshLayout.setRefreshing(false);
         adapter.clear();
         if (data != null && !data.isEmpty()) {
             adapter.addAll(data);
@@ -124,5 +139,11 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         Log.v(LOG_TAG, "onLoaderReset");
 
         adapter.clear();
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.v(LOG_TAG, "OnRefresh call");
+        updateUI();
     }
 }
