@@ -26,6 +26,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NewsPagerActivity" />
         </activity>
+        <activity android:name=".SearchableActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewsPagerActivity" />
+        </activity>
     </application>
 
 </manifest>

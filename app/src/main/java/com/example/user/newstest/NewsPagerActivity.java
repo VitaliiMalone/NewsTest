@@ -1,6 +1,5 @@
 package com.example.user.newstest;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,12 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class NewsPagerActivity extends AppCompatActivity {
-
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +17,7 @@ public class NewsPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news_pager);
         getSupportActionBar().setElevation(0);
 
-        viewPager = findViewById(R.id.viewpager);
+        ViewPager viewPager = findViewById(R.id.viewpager);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         viewPager.setAdapter(new FragmentPagerAdapter(fragmentManager) {
@@ -79,24 +74,5 @@ public class NewsPagerActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_setting:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

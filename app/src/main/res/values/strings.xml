@@ -6,6 +6,8 @@
     <string name="news_settings">News Settings</string>
     <string name="country">Country and Language</string>
     <string name="attribution_link">Powered by News API</string>
+    <string name="search">Search</string>
+    <string name="clear_search">Clear search</string>
 
     <!-- Strings for country Preference -->
     <string name="settings_country_label">Country</string>
@@ -24,11 +26,11 @@
     <string name="settings_country_ru_label">Russia</string>
     <string name="settings_country_ru_value" translatable="false">ru</string>
 
-    <!-- Label for country Russia option -->
+    <!-- Label for country Poland option -->
     <string name="settings_country_pl_label">Poland</string>
     <string name="settings_country_pl_value" translatable="false">pl</string>
 
-    <!-- Label for country Russia option -->
+    <!-- Label for country Germany option -->
     <string name="settings_country_de_label">Germany</string>
     <string name="settings_country_de_value" translatable="false">de</string>
 

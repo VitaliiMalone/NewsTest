@@ -1,6 +1,7 @@
 package com.example.user.newstest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,8 +16,12 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -27,10 +32,15 @@ import java.util.List;
 public class NewsFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<News>>,
         SwipeRefreshLayout.OnRefreshListener{
 
-    public static final String LOG_TAG = NewsFragment.class.getName();
+    public static final String LOG_TAG = "NewsFragment";
 
     public static final String ARG_NEWS_CATEGORY = "news_category";
     public static final String ARG_LOADER_ID = "loader_id";
+
+    public static final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
+    public static final String CATEGORY_PARAM = "category";
+    public static final String COUNTRY_PARAM = "country";
+    public static final String API_KEY_PARAM = "apiKey";
 
     private int loaderId;
     private RecyclerView recyclerView;
@@ -53,6 +63,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         category = getArguments().getString(ARG_NEWS_CATEGORY);
         loaderId = getArguments().getInt(ARG_LOADER_ID);
     }
@@ -85,6 +96,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
         if (networkInfo != null && networkInfo.isConnected()) {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
+
             getActivity().getSupportLoaderManager().initLoader(loaderId, null, NewsFragment.this);
         } else {
             recyclerView.setVisibility(View.GONE);
@@ -99,11 +111,6 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     @NonNull
     @Override
     public Loader<List<News>> onCreateLoader(int id, @Nullable Bundle args) {
-        final String BASE_URL = "https://newsapi.org/v2/top-headlines?";
-        final String CATEGORY_PARAM = "category";
-        final String COUNTRY_PARAM = "country";
-        final String API_KEY_PARAM = "apiKey";
-
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String country = sharedPref.getString(
                 getString(R.string.settings_country_key),
@@ -114,6 +121,7 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
                 .appendQueryParameter(CATEGORY_PARAM, category)
                 .appendQueryParameter(API_KEY_PARAM, "636fabe95997449195a6e4d1c9b96b44")
                 .build().toString();
+
         Log.v(LOG_TAG, "OnCreateLoader: builtUrl: " + builtUri);
         return new NewsLoader(getActivity(), builtUri);
     }
@@ -145,5 +153,44 @@ public class NewsFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onRefresh() {
         Log.v(LOG_TAG, "OnRefresh call");
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.v(LOG_TAG, "onQueryTextSubmit: " + query);
+                Intent intent = new Intent(getActivity(), SearchableActivity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.v(LOG_TAG, "onQueryTextChange: " + newText);
+
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_setting:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
