@@ -7,7 +7,6 @@
     <string name="country">Country and Language</string>
     <string name="attribution_link">Powered by News API</string>
     <string name="search">Search</string>
-    <string name="clear_search">Clear search</string>
 
     <!-- Strings for country Preference -->
     <string name="settings_country_label">Country</string>
