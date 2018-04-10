@@ -1,4 +1,4 @@
-# NewsTest
+# NiceNews
 A sample Android app, that displaying news by different categories. I mad this project after finishing Udacity's Android Basics Nanodegree.
 
 Features: 
