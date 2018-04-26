@@ -1,5 +1,7 @@
 # NiceNews
-A sample Android app, that displaying news by different categories. I mad this project after finishing Udacity's Android Basics Nanodegree.
+A sample Android app, that displaying news by different categories. I made this project after finishing Udacity's Android Basics Nanodegree.
+
+Updated to use Retrofit2 for network calls instead of Loaders and plain Java calls, also used ButterKnife
 
 Features: 
 - Discover most popular articles by 7 different categories
@@ -8,7 +10,7 @@ Features:
 - Search for articles
 - Material design
 
-In this project I used: Fragments, ViewPager, Networking + https://newsapi.org/, SharedPreferences, SettingsActivity, AsyncTaskLoader + LoaderCallbacks, SearchView, RecyclerView.
+In this project I used: Fragments, ViewPager, Retrofit2, https://newsapi.org/, SharedPreferences, SettingsActivity, SearchView, RecyclerView.
 
 Screenshots:
 
