@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewsPagerActivity">
+        <activity android:name=".ui.NewsPagerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,17 +20,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="@string/news_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewsPagerActivity" />
+                android:value=".ui.NewsPagerActivity" />
         </activity>
-        <activity android:name=".SearchableActivity">
+        <activity android:name=".ui.SearchableActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewsPagerActivity" />
+                android:value=".ui.NewsPagerActivity" />
         </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/news_api_key"/>
     </application>
 
 </manifest>

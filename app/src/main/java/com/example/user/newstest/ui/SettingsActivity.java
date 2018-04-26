@@ -1,4 +1,4 @@
-package com.example.user.newstest;
+package com.example.user.newstest.ui;
 
 import android.content.SharedPreferences;
 import android.preference.ListPreference;
@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.user.newstest.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
